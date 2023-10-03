@@ -14,7 +14,7 @@ the birth and death chain model;
 
 ---File Parallel.py is the Python codes that calculates the probability distribution using parallel computing framework;
 
----Directory "Code for EC" contains all the Python codes that are used to conduct the numerical experiments listed in Section EC.4 of the paper entitled "A Birth and Death Chain Solution to a Spatial Queueing Problem".
+---Directory "Codes for EC" contains all the Python codes that are used to conduct the numerical experiments listed in Section EC.4 of the paper entitled "A Birth and Death Chain Solution to a Spatial Queueing Problem".
 ```diff
 - Files and descriptions of them.
 ```
