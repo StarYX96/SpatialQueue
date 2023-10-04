@@ -106,7 +106,7 @@ def Hypercube_lp(N, transup, transdown):
     :param transup, transdown: upward and downward transition rate matrix in sparse form
     :return: probability distribution solved by linear programming
 
-    Note: This function can only solved the problems with N less than 15
+    Note: This function can only solved the problems with N less than 16
     '''
     inflow = (transup + transdown).T
     outflow = np.array(inflow.sum(axis=0))[0]
@@ -133,6 +133,7 @@ def Hypercube_lp(N, transup, transdown):
 def BnD(N, Mu, Lambda, transup, transdown, convCritBnD):
     """
     :param transup, transdown: upward and downward transition rate matrix in sparse form
+    :param convCritBnD: stopping criterion 
     :return: probability distribution solved by BnD model with Guassian-Seidel iteration
     """
 
