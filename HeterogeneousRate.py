@@ -19,7 +19,7 @@ from scipy.special import comb
 from scipy.sparse.linalg import spsolve
 import matplotlib.pyplot as plt
 
-
+# Function to generate a random fraction of region-wide demand
 def Random_Fraction(J, seed=9001):
     '''
     :param J: Number of geographical atoms
@@ -30,7 +30,7 @@ def Random_Fraction(J, seed=9001):
     f = f / sum(f)
     return f
 
-
+# Function to generate a random preference list of atoms
 def Random_Pref(N, J, seed=9001):
     '''
     :param N: Number of units
@@ -45,7 +45,7 @@ def Random_Pref(N, J, seed=9001):
         PreList[i] = np.argsort(distance)
     return PreList
 
-
+# Function to generate transition rates
 def Transition_Rate(N, J, Lambda, Mu):
     seed = 4
     Pre_L = Random_Pref(N, J, seed=seed)
@@ -99,7 +99,7 @@ def Transition_Rate(N, J, Lambda, Mu):
 
     return transup_rate, transdown_rate
 
-
+# Function to solve linear programming problem for the hypercube
 def Hypercube_lp(N, transup, transdown):
     '''
     :param N: number of units
@@ -129,7 +129,7 @@ def Hypercube_lp(N, transup, transdown):
 
     return prob_dist, calcuTime
 
-
+# Function to solve the BnD model
 def BnD(N, Mu, Lambda, transup, transdown, convCritBnD):
     """
     :param transup, transdown: upward and downward transition rate matrix in sparse form
@@ -195,6 +195,7 @@ if __name__ == '__main__':
 
     Table = pd.DataFrame(columns=['N', 'rho', 'LP_calcuTime', 'BnD_calcuTime', 'BnD_ite', 'BnD-error'])
 
+    # Loop over different numbers of units and utilization rates
     for n in range(11, 16):
         for rho in np.arange(0.2, 1.0, 0.1):
             Data['rho'] = rho
@@ -206,20 +207,27 @@ if __name__ == '__main__':
             Data['Lambda'] = rho * Mu.sum()
             Lambda = Data['Lambda']
             print('Number of units: %s, utilization: %s' % (N, rho))
-
+            
+            # Generate transition rates
             transup, transdown = Transition_Rate(N, J, Lambda, Mu)
-
+            
+            # Solve linear programming problem for the hypercube
             prob_dist_lp, calcuTime_lp = Hypercube_lp(N, transup, transdown)
 
+            # Solve the BnD model
             prob_dist_BnD, ite_BnD, calcuTime_BnD = BnD(N, Mu, Lambda, transup, transdown, convCritBnD)
 
+            # Calculate relative error
             BnDError = max(np.abs(prob_dist_BnD - prob_dist_lp) / prob_dist_lp)
             print('Relative Error:', BnDError)
 
+            # Store results in a table
             Table.loc[len(Table.index)] = [N, rho, calcuTime_lp, calcuTime_BnD, ite_BnD, BnDError]
 
+            # Clean up
             del transup, transdown, prob_dist_lp, prob_dist_BnD
 
+    # Save the results to a CSV file
     Table.to_csv('Table-BnD-SolverComparison.csv', index=None)
 
 
