@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 '''
-test for GPU parallel: transition matrix
+This code is designed for evaluating the performance of parallel computing framework
 '''
 import numpy as np
 import pandas as pd
@@ -16,7 +16,7 @@ import multiprocessing as mp
 
 from multiprocessing.reduction import ForkingPickler, AbstractReducer
 
-
+# Custom ForkingPickler for multiprocessing with protocol 4
 class ForkingPickler4(ForkingPickler):
     def __init__(self, *args):
         if len(args) > 1:
@@ -29,17 +29,15 @@ class ForkingPickler4(ForkingPickler):
     def dumps(cls, obj, protocol=4):
         return ForkingPickler.dumps(obj, protocol)
 
-
 def dump(obj, file, protocol=4):
     ForkingPickler4(file, protocol).dump(obj)
-
 
 class Pickle4Reducer(AbstractReducer):
     ForkingPickler = ForkingPickler4
     register = ForkingPickler4.register
     dump = dump
 
-
+# Function to generate a random fraction of region-wide demand
 def Random_Fraction(J, seed=9001):
     '''
     :param J: Number of geographical atoms
@@ -50,7 +48,7 @@ def Random_Fraction(J, seed=9001):
     f = f / sum(f)
     return f
 
-
+# Function to generate a random preference list of atoms
 def Random_Pref(N, J, seed=9001):
     '''
     :param N: Number of units
@@ -65,7 +63,7 @@ def Random_Pref(N, J, seed=9001):
         PreList[i] = np.argsort(distance)
     return PreList
 
-
+# Function to generate transition rates for a subset of nodes
 def TransitionRate_divided(f, Pre_L, N, J, Lambda, Mu, n, nodeList):
     stateNum = 2 ** N
     units = list(range(N))
@@ -97,7 +95,7 @@ def TransitionRate_divided(f, Pre_L, N, J, Lambda, Mu, n, nodeList):
 
     return transup_rate, transdown_rate
 
-
+# Function to solve the birth and death model for a subset of nodes
 def BnD_divided(f, Pre_L, N, J, Lambda, Mu, p_n_B_new, n, nodeList):
     rho = Lambda / Mu
     transup, transdown = TransitionRate_divided(f, Pre_L, N, J, Lambda, Mu, n, nodeList)
@@ -106,7 +104,7 @@ def BnD_divided(f, Pre_L, N, J, Lambda, Mu, p_n_B_new, n, nodeList):
     del transup, transdown, p_n_B_new
     return [nodeList, p_n_B_modify]
 
-
+# Function to perform BnD iteration for a large-scale problem using parallel computing
 def BnD_LargeScale(f, Pre_L, N, J, Lambda, Mu, batchsize, p_n_B_new, layer, processorsNum):
     # task assignment
     taskAssign = []
