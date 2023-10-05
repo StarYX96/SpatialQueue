@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
+
 '''
-This Code is designed for comparing the performance between hypercube and BnD model.
-Output: Table 1 in the paper
+This code is designed for evaluating the performance of oringal hypercube model and birth anf death model.
 '''
 
 import numpy as np
@@ -12,7 +12,7 @@ import time
 from scipy.special import comb
 from scipy import sparse
 
-
+# Function to generate a random fraction of region-wide demand
 def Random_Fraction(J, seed=9001):
     '''
     :param J: Number of geographical atoms
@@ -23,7 +23,7 @@ def Random_Fraction(J, seed=9001):
     f = f / sum(f)
     return f
 
-
+# Function to generate a random preference list of atoms and their distances
 def Random_Pref(N, J, seed=9001):
     '''
     :param N: Number of units
@@ -40,6 +40,7 @@ def Random_Pref(N, J, seed=9001):
         PreList[i] = np.argsort(distance)
     return PreList.astype(int), np.insert(distanceList, N, 10000, axis=1)
 
+# Function to generate transition rates by traversing the states  
 def Transition_Rate(N, J, Lambda, Mu):
     Pre_L, distance = Random_Pref(N, J, seed=4)
     f = Random_Fraction(J, seed=4)
@@ -89,6 +90,7 @@ def Transition_Rate(N, J, Lambda, Mu):
 
     return transup_rate, transdown_rate
 
+# Function to solve the birth and death model 
 def BnD(N, Mu, Lambda, transup, transdown):
     """
     :param transup, transdown: upward and downward transition rate matrix in sparse form
@@ -133,6 +135,7 @@ def BnD(N, Mu, Lambda, transup, transdown):
 
     return p_n_B_new[1,:], ite, calcuTime
 
+# Function to solve Larson's original hypercube model
 def LarsonOrigin(N, J, Pre_L, Distance, f, Lambda, Mu):
     '''
     :param Pre_L: preference list
@@ -252,6 +255,7 @@ if __name__ == '__main__':
         columns=['N', 'rho', 'Tour_Time', 'OH_calcuTime', 'OH_ite', 'transMatrix_calcuTime',
                  'BnD_calcuTime', 'BnD_ite', 'BnD-HC-error'])
 
+    # Loop over different numbers of units and utilization rates
     for n in range(11, 21):
         for rho in np.arange(0.1, 1.0, 0.1):
             Data['rho'] = rho
