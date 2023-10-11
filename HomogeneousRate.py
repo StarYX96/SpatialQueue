@@ -18,8 +18,13 @@ def Random_Fraction(J, seed=9001):
     :param J: Number of geographical atoms
     :return: fraction of region-wide demand f
     '''
+    # Set the random seed 
     np.random.seed(seed)
+    
+    # Generate an array of random numbers between 0 and 1
     f = np.random.random(size=J)
+
+    # Normalize the array to represent a fraction (summing to 1)
     f = f / sum(f)
     return f
 
@@ -27,43 +32,84 @@ def Random_Fraction(J, seed=9001):
 def Random_Pref(N, J, seed=9001):
     '''
     :param N: Number of units
+    :param J: Number of geographical atoms
     :return: Random preference list of atoms
     '''
     np.random.seed(seed=seed)
+
+    # Generate random coordinates for geographical atoms
     demandNodes = np.random.rand(J, 2)
+
+    # Generate random coordinates for servers
     servers = np.random.rand(N, 2)
+
+    # Initialize arrays to store preference list and distances of atom-server pairs
     PreList = np.zeros((J, N))
     distanceList = np.zeros((J, N))
+
+    # Loop over geographical atoms
     for i in range(J):
+        # Calculate and store the Manhattan distances between the current geographical atom and all servers
         distance = np.abs(demandNodes[i] - servers).sum(axis=1)
         distanceList[i] = distance
+        
+        # Generate the preference list of the servers based on the distances from near to far
         PreList[i] = np.argsort(distance)
+
+    # Convert the preference list to integer type and construct an artificial server with a large distance (10000) for computational convenience
     return PreList.astype(int), np.insert(distanceList, N, 10000, axis=1)
 
 # Function to generate transition rates by traversing the states  
 def Transition_Rate(N, J, Lambda, Mu):
+    '''
+    :param N: Number of units
+    :param J: Number of geographical atoms
+    :param Lambda: overall arrival rate within entire region
+    :param Mu: service rate of each response unit 
+    :return: Random preference list of atoms
+    '''
+    
+    # Generate a random preference list and distances
     Pre_L, distance = Random_Pref(N, J, seed=4)
+    # Generate a random fraction of region-wide demand
     f = Random_Fraction(J, seed=4)
+    
     stateNum = 2 ** N
     units = list(range(N))
+
+    # Calculate the density of the transition matrix
     density = N * (2 ** (N - 1))
 
+    # Initialize arrays to store the upward and downward transition rates
     up_row = np.zeros(density)
     up_col = np.zeros(density)
     up_rate = np.zeros(density)
     down_row = np.zeros(density)
     down_col = np.zeros(density)
     down_rate = np.zeros(density)
+
+    # Initialize counters for the starting location of upward and downward transitions in each loop
     up_startLoc = 0
     down_startLoc = 0
 
+    # Loop over all states (except the first and last)
     for i in range(1, stateNum - 1):
+        # Identify busy units in the current state
         busy = [m for m in range(N) if i & (1 << m) != 0]
         n = len(busy)
+        # Identify free units in the current state
         free = set(units) - set(busy)
+
+        # Populate the column i of upward transition matrix
         up_col[up_startLoc: up_startLoc + n] = i
+
+        # Find all unit-step reachable states by changing exactly one units from 1 to 0 of current state
         up_row[up_startLoc: up_startLoc + n] = i & ~(1 << np.array(busy))
+
+        # Loop over geographical atoms
         for j in range(J):
+            
+            # For each atom, find the optimal dispatch unit and add the fraction of region-wide demand to corresponding location in upward transition matrix
             for m in range(n):
                 if Pre_L[j][m] in free:
                     break
@@ -71,20 +117,27 @@ def Transition_Rate(N, J, Lambda, Mu):
                     up_rate[up_startLoc + busy.index(Pre_L[j][m])] += f[j]
         up_startLoc += n
 
+        # Populate the column i of downward transition matrix
+        # Find all unit-step reachable states by changing exactly one units from 0 to 1 of current state
         down_row[down_startLoc: down_startLoc + (N - n)] = i | (1 << np.array(list(free)))
         down_col[down_startLoc: down_startLoc + (N - n)] = i
+
+        # Fill ``Mu''  to corresponding locations in the downward transition matrix
         down_rate[down_startLoc: down_startLoc + (N - n)] = Mu
         down_startLoc += N - n
 
 
+    # Populate the first column of downward transitions 
     down_row[down_startLoc: down_startLoc + N] = 0 | (1 << np.array(units))
     down_col[down_startLoc: down_startLoc + N] = 0
     down_rate[down_startLoc: down_startLoc + N] = Mu
 
+    # Populate the last column of upward transition matrices
     up_col[up_startLoc: up_startLoc + N] = stateNum - 1
     up_row[up_startLoc: up_startLoc + N] = (stateNum - 1) & ~(1 << np.array(units))
     up_rate[up_startLoc: up_startLoc + N] = [1] * N
 
+    # Create sparse matrices for upward and downward transition rates
     transup_rate = sparse.csc_matrix((up_rate * Lambda, (up_row, up_col)), shape=(stateNum, stateNum))
     transdown_rate = sparse.csc_matrix((down_rate, (down_row, down_col)), shape=(stateNum, stateNum))
 
