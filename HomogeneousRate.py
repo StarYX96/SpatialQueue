@@ -150,7 +150,7 @@ def BnD(N, Mu, Lambda, transup, transdown):
     :param Lambda: overall arrival rate within entire region
     :param Mu: service rate of each response unit 
     :param transup, transdown: upward and downward transition rate matrix in sparse form
-    :return: probability distribution solved by BnD model with Guassian-Seidel iteration
+    :return: probability distribution solved by BnD model 
     """
 
     # Calculate the steady state probability of busy units
@@ -183,7 +183,7 @@ def BnD(N, Mu, Lambda, transup, transdown):
         p_n_B = np.copy(p_n_B_new[1,:])
         start_time_ite = time.time()
 
-        # Iterate over layers using updated function
+        # Iterate over layers using updating equations in Birth and Death model
         for n in range(1, N):
             p_n_B_new[1, layer[n]] = (p_n_B_new[1, layer[n-1]] * transup[layer[n-1]][:, layer[n]] * n / rho + p_n_B_new[1,layer[n+1]] * transdown[layer[n+1]][:, layer[n]] * rho / (n + 1)) / (n * Mu + Lambda)
             time_list += [time.time() - start_time_ite]
