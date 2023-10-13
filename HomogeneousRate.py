@@ -164,7 +164,7 @@ def BnD(N, Mu, Lambda, transup, transdown):
         w = bin(i).count('1')
         p_n_B_new[:, i] = [w, 1 / comb(N, w)]
 
-     # Convert transition rate matrices to CSR format for efficient computations
+    # Convert transition rate matrices to CSR format for efficient computations
     transup = transup.tocsr()
     transdown = transdown.tocsr()
 
@@ -325,7 +325,7 @@ def LarsonOrigin(N, J, Pre_L, Distance, f, Lambda, Mu):
                 # Update the probability of the current state
                 p_B[S[i]] = relative / trans_rate[MAP[S[i]]]
 
-         # Update iteration count and calculate the maximum relative change
+        # Update iteration count and calculate the maximum relative change
         ite += 1
         gap = max(np.abs(p_B_old - p_B) / p_B)
         err_Linf.append(gap)
@@ -378,11 +378,11 @@ if __name__ == '__main__':
 
             print('Number of units: %s, utilization: %s' % (N, rho))
 
-            # Solve using Original Hypercube Model
+            # Solve the Original Hypercube Model
             print('------Original Hypercube Solution------')
             prob_dist_OH, ite_OH, TourTime, calcuTime_OH = LarsonOrigin(N, J, Pre_L, Distance, f, Lambda, Mu)
 
-            # Solve using Birth and Death Model
+            # Solve the Birth and Death Model
             print('------Birth and Death Solution------')
             start_time = time.time()
             transup, transdown = Transition_Rate(N, J, Lambda, Mu)
