@@ -1,13 +1,4 @@
 # -*- coding: utf-8 -*-
-'''
-This Code is designed for calculate the BnD model of heterogeneous service rate when rho = 0.1
-r is set as follows:
-11 - 13 units: r = 30;
-14 - 15 units: r = 40
-16 units: r = 50
-17 - 19 units: r = 60
-20 units: r = 70
-'''
 
 import numpy as np
 import pandas as pd
@@ -55,7 +46,7 @@ def Random_Pref(N, J, seed=9001):
 
     # Loop over geographical atoms
     for i in range(J):
-        # Calculate and the Manhattan distances between the current geographical atom and all servers
+        # Calculate the Manhattan distances between the current geographical atom and all servers
         distance = np.abs(demandNodes[i] - servers).sum(axis=1)
 
         # Generate the preference list of the servers based on the distances from near to far
@@ -68,7 +59,7 @@ def Transition_Rate(N, J, Lambda, Mu):
     '''
     :param N: Number of units
     :param J: Number of geographical atoms
-    :param Lambda: overall arrival rate within entire region
+    :param Lambda: overall arrival rate within the entire region
     :param Mu: service rate of each response unit 
     :return: Random preference list of atoms
     '''
@@ -105,16 +96,16 @@ def Transition_Rate(N, J, Lambda, Mu):
         # Identify free units in the current state
         free = set(units) - set(busy)
 
-        # Populate the column i of upward transition matrix
+        # Populate column i of the upward transition matrix
         up_col[up_startLoc: up_startLoc + n] = i
         
-        # Find all unit-step reachable states by changing exactly one units from 1 to 0 of current state
+        # Find all unit-step reachable states by changing exactly one unit from 1 to 0 of the current state
         up_row[up_startLoc: up_startLoc + n] = i & ~(1 << np.array(busy))
 
         # Loop over geographical atoms
         for j in range(J):
 
-            # For each atom, find the optimal dispatch unit and add the fraction of region-wide demand to corresponding location in upward transition matrix
+            # For each atom, find the optimal dispatch unit and add the fraction of region-wide demand to the corresponding location in upward transition matrix
             for m in range(n):
                 if Pre_L[j][m] in free:
                     break
@@ -122,8 +113,8 @@ def Transition_Rate(N, J, Lambda, Mu):
                     up_rate[up_startLoc + busy.index(Pre_L[j][m])] += f[j]
         up_startLoc += n
 
-        # Populate the column i of downward transition matrix
-        # Find all unit-step reachable states by changing exactly one units from 0 to 1 of current state
+        # Populate column i of the downward transition matrix
+        # Find all unit-step reachable states by changing exactly one unit from 0 to 1 of the current state
         down_row[down_startLoc: down_startLoc + (N - n)] = i | (1 << np.array(list(free)))
         down_col[down_startLoc: down_startLoc + (N - n)] = i
 
@@ -155,9 +146,9 @@ def Hypercube_lp(N, transup, transdown):
     '''
     :param N: number of units
     :param transup, transdown: upward and downward transition rate matrix in sparse form
-    :return: probability distribution solved by linear programming
+    :return: probability distribution solved by the sparse solver
 
-    Note: This function can only solved the problems with N less than 16
+    Note: This function can only solve problems with N less than 16
     '''
 
     # Calculate the total inflow for each state and the outflow for each state
@@ -193,7 +184,7 @@ def Hypercube_lp(N, transup, transdown):
 def BnD(N, Mu, Lambda, transup, transdown, convCritBnD):
     """
     :param N: Number of units
-    :param Lambda: overall arrival rate within entire region
+    :param Lambda: overall arrival rate within the entire region
     :param Mu: service rate of each response unit
     :param transup, transdown: upward and downward transition rate matrix in sparse form
     :param convCritBnD: stopping criterion 
@@ -234,9 +225,9 @@ def BnD(N, Mu, Lambda, transup, transdown, convCritBnD):
         p_n_B = np.copy(p_n_B_new[1, :])
         start_time_ite = time.time()
 
-        # Iterate over layers using updated function
+        # Iterate over layers using the updated function
         for n in range(1, N):
-            # Repeatedly update each layer for a constant times to achieve stability
+            # Repeatedly update each layer for a constant time to achieve stability
             for r in range(10):
                 p_n_B_new[1, layer[n]] = (p_n_B_new[1, layer[n - 1]] * transup[layer[n - 1]][:, layer[n]] * MuN[
                     n] / Lambda + p_n_B_new[1, layer[n + 1]] * transdown[layer[n + 1]][:, layer[n]] * Lambda / MuN[
