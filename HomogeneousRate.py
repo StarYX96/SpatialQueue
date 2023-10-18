@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
 
-'''
-This code is designed for evaluating the performance of oringal hypercube model and birth anf death model.
-'''
-
 import numpy as np
 import pandas as pd
 import random
