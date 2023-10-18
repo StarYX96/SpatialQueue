@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-'''
-This code is designed for evaluating the performance of parallel computing framework
-'''
+
 import numpy as np
 import pandas as pd
 import random
@@ -72,7 +70,7 @@ def Random_Pref(N, J, seed=9001):
     # Generate random coordinates for servers
     servers = np.random.rand(N, 2)
 
-    # Initialize arrays to store preference list and distances of atom-server pairs
+    # Initialize arrays to store preference lists and distances of atom-server pairs
     PreList = np.zeros((J, N))
 
     # Loop over geographical atoms
@@ -89,11 +87,11 @@ def Random_Pref(N, J, seed=9001):
 # Function to generate transition rates for a subset of states
 def TransitionRate_divided(f, Pre_L, N, J, Lambda, Mu, n, nodeList):
     '''
-    :param f: fraction of regional wide demand
+    :param f: fraction of region-wide demand
     :param Pre_L: preference list
     :param N: Number of units
     :param J: Number of geographical atoms
-    :param Lambda: overall arrival rate within entire region
+    :param Lambda: overall arrival rate within the entire region
     :param Mu: service rate of each response unit 
     :param n: current layer
     :param nodeList: states need to generate the transition rates
@@ -116,24 +114,24 @@ def TransitionRate_divided(f, Pre_L, N, J, Lambda, Mu, n, nodeList):
         busy = [m for m in range(N) if nodeList[i] & (1 << m) != 0]
         free = set(units) - set(busy)
 
-        # Populate the column i of upward transition matrix
+        # Populate column i of the upward transition matrix
         up_col[i * n: (i + 1) * n] = i
 
-        # Find all unit-step reachable states by changing exactly one units from 1 to 0 of current state
+        # Find all unit-step reachable states by changing exactly one unit from 1 to 0 of the current state
         up_row[i * n: (i + 1) * n] = nodeList[i] & ~(1 << np.array(busy))
 
         # Loop over geographical atoms
         for j in range(J):
 
-            # For each atom, find the optimal dispatch unit and add the fraction of region-wide demand to corresponding location in upward transition matrix
+            # For each atom, find the optimal dispatch unit and add the fraction of region-wide demand to the corresponding location in upward transition matrix
             for m in range(n):
                 if Pre_L[j][m] in free:
                     break
                 else:
                     up_rate[i * n + busy.index(Pre_L[j][m])] += f[j]
 
-        # Populate the column i of downward transition matrix
-        # Find all unit-step reachable states by changing exactly one units from 0 to 1 of current state
+        # Populate column i of the downward transition matrix
+        # Find all unit-step reachable states by changing exactly one unit from 0 to 1 of the current state
         down_row[i * (N - n): (i + 1) * (N - n)] = nodeList[i] | (1 << np.array(list(free)))
         down_col[i * (N - n): (i + 1) * (N - n)] = i
 
@@ -149,7 +147,7 @@ def TransitionRate_divided(f, Pre_L, N, J, Lambda, Mu, n, nodeList):
 # Function to solve the birth and death model for a subset of states
 def BnD_divided(f, Pre_L, N, J, Lambda, Mu, p_n_B_new, n, nodeList):
     '''
-    :param f: fraction of regional wide demand
+    :param f: fraction of region-wide demand
     :param Pre_L: preference list
     :param N: Number of units
     :param J: Number of geographical atoms
@@ -174,15 +172,15 @@ def BnD_divided(f, Pre_L, N, J, Lambda, Mu, p_n_B_new, n, nodeList):
 # Function to perform BnD iteration for a large-scale problem using parallel computing
 def BnD_LargeScale(f, Pre_L, N, J, Lambda, Mu, batchsize, p_n_B_new, layer, processorsNum):
     '''
-    :param f: fraction of regional wide demand
+    :param f: fraction of region-wide demand
     :param Pre_L: preference list
     :param N: Number of units
     :param J: Number of geographical atoms
-    :param Lambda: overall arrival rate within entire region
+    :param Lambda: overall arrival rate within the entire region
     :param Mu: service rate of each response unit 
     :param batchsize: number of states in each task
-    :param p_n_B_new: inital conditional probability distribution
-    :param layer: set of states with certain number of busy units
+    :param p_n_B_new: initial conditional probability distribution
+    :param layer: the set of states with a certain number of busy units
     :param processorsNum: total number of processors
     :return: probability distribution solved by BnD model and its execution time  
     '''
@@ -207,7 +205,7 @@ def BnD_LargeScale(f, Pre_L, N, J, Lambda, Mu, batchsize, p_n_B_new, layer, proc
     ctx = mp.get_context()
     ctx.reducer = Pickle4Reducer()
 
-    # Create a pool with given number of processors
+    # Create a pool with a given number of processors
     pool = mp.Pool(processes=processorsNum)
 
     # Initialize variables for iteration
@@ -224,12 +222,12 @@ def BnD_LargeScale(f, Pre_L, N, J, Lambda, Mu, batchsize, p_n_B_new, layer, proc
         p_n_B = np.copy(p_n_B_new)
         start_time_ite = time.time()
 
-        # Iterate over layers using updating equations in Birth and Death model
+        # Iterate over layers using updating equations in the Birth and Death model
         for n in range(1, N):
-            # Define the partial function with all parameters except node list fixed to perform the updating for tasks
+            # Define the partial function with all parameters except the node list fixed to perform the updating for tasks
             BnD_divided_partial = partial(BnD_divided, f, Pre_L, N, J, Lambda, Mu, p_n_B_new, n)
 
-            # Divide the tasks in current layer to processors with task assignment list
+            # Divide the tasks in the current layer to processors with task assignment list
             new = pool.imap_unordered(BnD_divided_partial, taskAssign[n - 1])
 
             # Conquer the results from processors 
@@ -246,7 +244,7 @@ def BnD_LargeScale(f, Pre_L, N, J, Lambda, Mu, batchsize, p_n_B_new, layer, proc
     calcuTime = time.time() - start_time
     print("------ %s seconds, %s iterations ------" % (time.time() - start_time, ite))
 
-    # Close the processors pool
+    # Close the processor pool
     pool.close()
     pool.join()
 
@@ -272,7 +270,7 @@ if __name__ == '__main__':
     Data['Mu'] = 1.76
     Mu = Data['Mu']
 
-    # # Set the utilization and overall arrival rate within entire region
+    # # Set the utilization and overall arrival rate within the entire region
     Data['rho'] = 0.5
     rho = Data['rho']
     Data['Lambda'] = rho * Mu * N
