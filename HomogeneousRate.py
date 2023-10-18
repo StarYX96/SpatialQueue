@@ -24,7 +24,7 @@ def Random_Fraction(J, seed=9001):
     f = f / sum(f)
     return f
 
-# Function to generate a random preference list of atoms and their distances
+# Function to generate a random preference lists of atoms and their distances
 def Random_Pref(N, J, seed=9001):
     '''
     :param N: Number of units
@@ -52,7 +52,7 @@ def Random_Pref(N, J, seed=9001):
         # Generate the preference list of the servers based on the distances from near to far
         PreList[i] = np.argsort(distance)
 
-    # Convert the preference list to integer type and construct an artificial server with a large distance (10000) for computational convenience
+    # Convert the preference list to an integer type and construct an artificial server with a large distance (10000) for computational convenience
     return PreList.astype(int), np.insert(distanceList, N, 10000, axis=1)
 
 # Function to generate transition rates by traversing the states  
@@ -60,7 +60,7 @@ def Transition_Rate(N, J, Lambda, Mu):
     '''
     :param N: Number of units
     :param J: Number of geographical atoms
-    :param Lambda: overall arrival rate within entire region
+    :param Lambda: overall arrival rate within the entire region
     :param Mu: service rate of each response unit 
     :return: Random preference list of atoms
     '''
@@ -96,16 +96,16 @@ def Transition_Rate(N, J, Lambda, Mu):
         # Identify free units in the current state
         free = set(units) - set(busy)
 
-        # Populate the column i of upward transition matrix
+        # Populate column i of the upward transition matrix
         up_col[up_startLoc: up_startLoc + n] = i
 
-        # Find all unit-step reachable states by changing exactly one units from 1 to 0 of current state
+        # Find all unit-step reachable states by changing exactly one unit from 1 to 0 of the current state
         up_row[up_startLoc: up_startLoc + n] = i & ~(1 << np.array(busy))
 
         # Loop over geographical atoms
         for j in range(J):
             
-            # For each atom, find the optimal dispatch unit and add the fraction of region-wide demand to corresponding location in upward transition matrix
+            # For each atom, find the optimal dispatch unit and add the fraction of region-wide demand to the corresponding location in upward transition matrix
             for m in range(n):
                 if Pre_L[j][m] in free:
                     break
@@ -143,7 +143,7 @@ def Transition_Rate(N, J, Lambda, Mu):
 def BnD(N, Mu, Lambda, transup, transdown):
     """
     :param N: Number of units
-    :param Lambda: overall arrival rate within entire region
+    :param Lambda: overall arrival rate within the entire region
     :param Mu: service rate of each response unit 
     :param transup, transdown: upward and downward transition rate matrix in sparse form
     :return: probability distribution solved by BnD model 
@@ -154,7 +154,7 @@ def BnD(N, Mu, Lambda, transup, transdown):
     p_n = np.array([(rho ** j) / math.factorial(j) for j in range(N+1)])
     p_n = p_n / sum(p_n)
 
-    # Initialize states probabilities by assuming all states within a layer is equally distributed
+    # Initialize state probabilities by assuming all states within a layer are equally distributed
     p_n_B_new = np.zeros((2, 2 ** N))
     for i in range(2 ** N):
         w = bin(i).count('1')
@@ -179,7 +179,7 @@ def BnD(N, Mu, Lambda, transup, transdown):
         p_n_B = np.copy(p_n_B_new[1,:])
         start_time_ite = time.time()
 
-        # Iterate over layers using updating equations in Birth and Death model
+        # Iterate over layers using updating equations in the Birth and Death model
         for n in range(1, N):
             p_n_B_new[1, layer[n]] = (p_n_B_new[1, layer[n-1]] * transup[layer[n-1]][:, layer[n]] * n / rho + p_n_B_new[1,layer[n+1]] * transdown[layer[n+1]][:, layer[n]] * rho / (n + 1)) / (n * Mu + Lambda)
             time_list += [time.time() - start_time_ite]
@@ -207,8 +207,8 @@ def LarsonOrigin(N, J, Pre_L, Distance, f, Lambda, Mu):
     :param J: Number of geographical atoms
     :param Pre_L: preference list
     :param Distance: distance of each (atom, server) pair
-    :param f: fraction of regional wide demand
-    :param Lambda: overall arrival rate within entire region
+    :param f: fraction of region-wide demand
+    :param Lambda: overall arrival rate within the entire region
     :param Mu: service rate of each response unit 
     :return: upward and downward transition rate matrix
     '''
@@ -236,13 +236,13 @@ def LarsonOrigin(N, J, Pre_L, Distance, f, Lambda, Mu):
         else:
             w[S[k]] = w[S[k - 1]] - 1
 
-    # Determine the address of the on-diagonal term in transition rate array
+    # Determine the address of the on-diagonal term in the transition rate array
     MAP = np.zeros(2**N + 1).astype(int)
     MAP[1] = 1
     for i in range(2, 2**N + 1):
         MAP[i] = MAP[i-1] + w[i-1] + 1
 
-    # Creat the transition rate array
+    # Create the transition rate array
     trans_rate = np.zeros(MAP[-1])
 
     # Calculate the upward transition rate of each state
@@ -252,7 +252,7 @@ def LarsonOrigin(N, J, Pre_L, Distance, f, Lambda, Mu):
         dist = Distance[j]
         opt = pre[0]
 
-        # Iterate over states according to the tour squence
+        # Iterate over states according to the tour sequence
         for i in range(0, len(S)):
             if S[i] == stateNum - 1:
                 opt = N
