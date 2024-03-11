@@ -1,4 +1,4 @@
-# BirthDeathChain-SpatialQueue
+# SpatialQueue
 
 On this site, we provide the codes used to conduct the numerical experiments for the paper titled "A Birth and Death Chain Solution to a Spatial Queueing Problem." All codes are written in Python. To compile and run the codes successfully, one needs to install Python with a version higher than 3.9.
 
