@@ -1,10 +1,10 @@
 # Spatial Queue
 
-On this site, we provide the codes used to conduct the numerical experiments for the paper titled "A Geometrically Convergent Solution to Spatial Hypercube Queueing Models for Emergency Services". All codes are written in Python. To compile and run the codes successfully, one needs to install Python with a version higher than 3.9.
+On this site, we provide the codes used to conduct the numerical experiments for the paper titled "A Geometrically Convergent Solution to Spatial Hypercube Queueing Models for Emergency Services". All codes are written in Python. To compile and run the codes successfully, please use Python with a version higher than 3.9.
 
----File HomogeneousRate.py is the Python code that calculates the probability distribution for homogeneous service rates using both the original hypercube model and the birth and death chain model. This code outputs the coefficient generation time, probability updating time, and maximum percentage relative error (MPRE) of both methods, which can be used to generate Table 2 and Table EC.3.1. 
+---File HomogeneousRate.py is the Python code that calculates the probability distribution for homogeneous service rates using both the original hypercube method and our approach. This code outputs the coefficient generation time, probability updating time, and maximum percentage relative error (MPRE) of both methods, which can be used to generate Table 2 and Table EC.3.1. 
 
----File HeterogeneousRate.py is the Python code that calculates the probability distribution for heterogeneous service rates using both the sparse solver and the birth and death chain model. This code outputs the probability updating time and MPRE of both methods, which can be used to generate Table 4 and Table EC.3.3.
+---File HeterogeneousRate.py is the Python code that calculates the probability distribution for heterogeneous service rates using both the sparse solver and our approach. This code outputs the probability updating time and MPRE of both methods, which can be used to generate Table 4 and Table EC.3.3.
 
 ---File Parallel.py is the Python code that calculates the probability distribution using a parallel computing framework. This code outputs the total computation time for different numbers of workers, which can be used to generate Table 6. Note that one may need to do the linear regression additionaly to calculate the $P$ and $R^2$.
 
