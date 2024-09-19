@@ -267,12 +267,4 @@ if __name__ == '__main__':
 
     Table.to_pickle('Table-OptDispatchPolicy.pkl')
 
-# data = pd.read_csv('Table-OptDispatchPolicy.csv')
-#
-# for i in range(len(data)):
-#     prob = data['prob_BnD'][i]
-#     prob = prob.replace('[', '').replace(']', '')
-#     prob = prob.split()
-#     prob_array = [float(x) for x in prob]
-
 
