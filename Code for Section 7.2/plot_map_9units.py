@@ -330,65 +330,13 @@ def showPlotFrac(f, x, y, bg, label, bins, text=[], bgcolor=1, color='orange', m
     plt.savefig('map_Location_%s_%s.png' %(bg, label), transparent=True, bbox_inches='tight', dpi=400)
     plt.show()
 
-def showPlotIndica(f, x, y, label='Current'):
-    # Initializing Visualization Set
-    sns.set(style='whitegrid', palette='pastel', color_codes=True)
-    sns.mpl.rc('figure', figsize=(10,6))
-    #opening the vector map
-    shp_path = 'map/Minneapolis_Census_Tracts/Minneapolis_Census_Tracts_wjd.shp'
-    # reading the shape file by using reader function of the shape lib
-    sf = shp.Reader(shp_path)
-
-    # Converting Shapefile Data Into Pandas Dataframes
-    df = read_shapefile(sf)
-
-    tract = df['TRACT'].apply(lambda x:int(x[1:4]))
-    stpaul_id = np.where(np.logical_and(tract > 300,tract < 400))[0]
-    sorted_stpaul_id = np.argsort(tract[stpaul_id])
-    stpaul_df = df.iloc[stpaul_id[sorted_stpaul_id],].reset_index()
-    station_y = np.array(
-        [44.9517095, 44.9772397, 44.9760414, 44.9436051, 44.9655918, 44.9517095, 44.9772397, 44.9760414, 44.9270148,
-         44.9567936, 44.9332616, 44.9446573, 44.9781178, 44.9560526, 44.9037886, 44.9705087, 44.9493677])
-    station_x = np.array(
-        [-93.0959001, -93.0320542, -93.1814471, -93.1366808, -93.0566164, -93.0959001, -93.0320542, -93.1814471,
-         -93.1274161, -93.0789894, -93.0827847, -93.1674044, -93.0732163, -93.1291568, -93.1766715, -93.1093789,
-         -93.0256709])
-
-    distance = pd.read_csv("distance.csv")
-    distance = distance.drop(distance.columns[0], axis=1)
-    distance = distance/1600
-    distance[distance > 0.7712735431536174] = (distance[distance > 0.7712735431536174]*111.51113889304331+86.005591195132666)/60
-    distance[distance < 0.7712735431536174] = 195.86302790816589*np.sqrt(distance[distance < 0.7712735431536174])/60
-    tract_sorted = np.sort(tract[stpaul_id])
-    census_tract = np.array(
-        [301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322,
-         323, 324, 325, 326, 327, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 342, 344, 345, 346, 347, 349,
-         350, 351, 352, 353, 355, 357, 358, 359, 360, 361, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 374, 375,
-         376, 428, 429, 430, 9800])
-    title = 'ems'
-    f_plot = f_for_plot(f, stpaul_id, tract_sorted, census_tract)
-    cities = np.where(np.array(f_plot) == 1)[0]
-    ax = plot_map_fill_multiples_ids('', cities, stpaul_df, color = 'g')
-    # ax = plot_cities_data(stpaul_df, title, ids, f_plot, 1, 15, False)
-    ax.plot(station_x[3:],station_y[3:], color='orange', marker='o', markersize=12, ls='', label = 'Candidate')
-    ax.plot(x, y, 'bs', markersize=12, label = label)
-    ax.legend()
-    ax.grid(b=None)
-    plt.savefig('map_Location_indi_%s.png' %label, transparent=True,bbox_inches='tight', dpi=400)
-    plt.show()
-
 if __name__ == '__main__':
-
     data = pd.read_pickle('C:\\Users\\Yixing\\Dropbox\\Research\\SpatialQueue\\(2nd)POM\\OperDecision\\data_9units.pkl')
     Data = parameter(File_Name='Saint_Paul')
     N_1, N_2, K, Lambda_1, Lambda_2, Mu_1, Mu_2, N, pre_list_1, pre_list_2, frac_j_1, frac_j_2 = Data_to_Param(Data)
     f = frac_j_1
     station_y = np.array([44.9517095,44.9772397,44.9760414,44.9436051,44.9655918,44.9517095,44.9772397,44.9760414,44.9270148,44.9567936,44.9332616,44.9446573,44.9781178,44.9560526,44.9037886,44.9705087,44.9493677])
     station_x = np.array([-93.0959001,-93.0320542,-93.1814471,-93.1366808,-93.0566164,-93.0959001,-93.0320542,-93.1814471,-93.1274161,-93.0789894,-93.0827847,-93.1674044,-93.0732163,-93.1291568,-93.1766715,-93.1093789,-93.0256709])
-    # candidate_x = np.hstack((station_x[:5], station_x[8:]))
-    # candidate_y = np.hstack((station_y[:5], station_y[8:]))
-    # stations = ['S%s' %x for x in range(14)]
-    # showPlotFrac(f, candidate_x, candidate_y, text=stations, bg='fj', label='Candidate', bgcolor=1, marker='s', color='b')
 
     currentLoc = data.loc[0]
     currentNo = currentLoc['location'].copy()
@@ -433,34 +381,51 @@ if __name__ == '__main__':
     bestDist_MRT_F9 = bestLoc_MRT['frac_9'][:-1].copy()
     bestMRT_MRT = bestLoc_MRT['MRT_j_9'].copy()
     bestMRT_MRT_f = bestLoc_MRT['MRT_j_9'].copy() * f
-    #
-    # # # Calculate the bins
-    # MRT_bins = np.hstack((currentMRT, bestMRT_MRT))
-    # new_MRT_bins, bins_MRT = pd.qcut(MRT_bins, 15, retbins=True, labels=False, duplicates='drop')
-    # np.save('bins_MRT.npy', bins_MRT)
-    # showPlotFrac(currentMRT, currentLoc_x, currentLoc_y, bins=bins_MRT, text=currentNo, bg='MRT', label='Current', bgcolor=4)
-    # showPlotFrac(bestMRT_MRT, bestLoc_MRT_x, bestLoc_MRT_y, bins=bins_MRT, text=bestNo_MRT, bg='MRT', label='Best', bgcolor=4)
+    
+    # # Calculate the bins
+    MRT_bins = np.hstack((currentMRT, bestMRT_MRT))
+    new_MRT_bins, bins_MRT = pd.qcut(MRT_bins, 15, retbins=True, labels=False, duplicates='drop')
+    np.save('bins_MRT.npy', bins_MRT)
+    showPlotFrac(currentMRT, currentLoc_x, currentLoc_y, bins=bins_MRT, text=currentNo, bg='MRT', label='Current', bgcolor=4)
+    showPlotFrac(bestMRT_MRT, bestLoc_MRT_x, bestLoc_MRT_y, bins=bins_MRT, text=bestNo_MRT, bg='MRT', label='Best', bgcolor=4)
 
-    # MRTj_bins = np.hstack((currentMRT_f, bestMRT_MRT_f))
-    # new_MRTj_bins, bins_MRT_f = pd.qcut(MRTj_bins, 15, retbins=True, labels=False, duplicates='drop')
-    # np.save('bins_MRT_f.npy', bins_MRT_f)
-    # showPlotFrac(currentMRT_f, currentLoc_x, currentLoc_y, bins=bins_MRT_f, text=currentNo, bg='Weighted MRT',
-    #              label='Current', bgcolor=4)
-    # showPlotFrac(bestMRT_MRT_f, bestLoc_MRT_x, bestLoc_MRT_y, bins=bins_MRT_f, text=bestNo_MRT, bg='Weighted MRT', label='Best', bgcolor=4)
-
-    # # # Calculate the bins
-    # f6_bins = np.hstack((currentDist_F6, bestDist_6_F6))
-    # new_f6_bins, bins_F6 = pd.qcut(f6_bins, 15, retbins=True, labels=False, duplicates='drop')
-    # np.save('bins_F6.npy', bins_F6)
-    # showPlotFrac(currentDist_F6, currentLoc_x, currentLoc_y, bins=bins_F6, text=currentNo, bg='F(6)', label='Current', bgcolor=2)
-    # showPlotFrac(bestDist_6_F6, bestLoc_6_x, bestLoc_6_y, bins=bins_F6, text=bestNo_6, bg='F(6)', label='Best', bgcolor=2)
-    #
+    # # Calculate the bins
+    f6_bins = np.hstack((currentDist_F6, bestDist_6_F6))
+    new_f6_bins, bins_F6 = pd.qcut(f6_bins, 15, retbins=True, labels=False, duplicates='drop')
+    np.save('bins_F6.npy', bins_F6)
+    showPlotFrac(currentDist_F6, currentLoc_x, currentLoc_y, bins=bins_F6, text=currentNo, bg='F(6)', label='Current', bgcolor=2)
+    showPlotFrac(bestDist_6_F6, bestLoc_6_x, bestLoc_6_y, bins=bins_F6, text=bestNo_6, bg='F(6)', label='Best', bgcolor=2)
+    
     f9_bins = np.hstack((currentDist_F9, bestDist_9_F9))
     new_f9_bins, bins_F9 = pd.qcut(f9_bins, 15, retbins=True, labels=False, duplicates='drop')
     np.save('bins_F9.npy', bins_F9)
     showPlotFrac(currentDist_F9, currentLoc_x, currentLoc_y, bins=bins_F9, text=currentNo, bg='F(9)', label='Current', bgcolor=8)
     showPlotFrac(bestDist_9_F9, bestLoc_9_x, bestLoc_9_y, bins=bins_F9, text=bestNo_9, bg='F(9)', label='Best', bgcolor=8)
 
+    fig, ax = plt.subplots()
+    x = np.arange(len(currentDist_F6)) + 1
+    y = list(currentDist_F6 - bestDist_6_F6)
+    # x = np.arange(len(currentMRT)) + 1
+    # y = list(currentMRT - bestMRT_6)
+    y.sort(reverse=True)
+    ax.bar(x, y, color='black')
+    ax.set_xlim(0, 72)
+    ax.set_xlabel("Index of Nodes")
+    ax.set_ylabel('Difference of $F_j(6)$')
+    yposition = np.arange(-1, 1, 0.2)
+    xposition = np.arange(1, 71, 5.0)
+    for yc in yposition:
+        plt.axhline(y=yc, color='lightgrey', linestyle='-.', linewidth=0.7)
+    for xc in xposition:
+        plt.axvline(x=xc, color='lightgrey', linestyle='-.', linewidth=0.7)
+    # plt.grid(b=False)
+    plt.xticks(np.arange(1, 72, 5), fontsize=10)
+    plt.yticks(np.arange(-1, 1.1, 0.2), fontsize=10)
+    # plt.legend(loc=1)
+    plt.tight_layout()
+    plt.savefig('bar_F6_F6_diff.png', transparent=False, bbox_inches='tight', dpi=400)
+    plt.show()    
+	
     # fig, ax = plt.subplots()
     # x = np.arange(len(currentMRT)) + 1
     # y = list(currentMRT - bestMRT_6)
@@ -482,263 +447,26 @@ if __name__ == '__main__':
     # plt.tight_layout()
     # plt.savefig('bar_MRT_F6_diff.png', transparent=False, bbox_inches='tight', dpi=400)
     # plt.show()
-    #
-    # fig, ax = plt.subplots()
-    # x = np.arange(len(currentMRT_f)) + 1
-    # y = list(currentMRT_f - bestMRT_6_f)
-    # y.sort(reverse=True)
-    # ax.bar(x, y, color='black')
-    # ax.set_xlim(0, 72)
-    # ax.set_xlabel("Index of Atoms")
-    # ax.set_ylabel('Difference of $MRT_j$')
-    # yposition = np.arange(-0.2, 0.2, 0.05)
-    # xposition = np.arange(1, 71, 5.0)
-    # for yc in yposition:
-    #     plt.axhline(y=yc, color='lightgrey', linestyle='-.', linewidth=0.7)
-    # for xc in xposition:
-    #     plt.axvline(x=xc, color='lightgrey', linestyle='-.', linewidth=0.7)
-    # # plt.grid(b=False)
-    # plt.xticks(np.arange(1, 72, 5), fontsize=10)
-    # plt.yticks(np.arange(-0.2, 0.2, 0.05), fontsize=10)
-    # # plt.legend(loc=1)
-    # plt.tight_layout()
-    # plt.savefig('bar_MRT_f_F6_diff.png', transparent=False, bbox_inches='tight', dpi=400)
-    # plt.show()
-    #
-    # fig, ax = plt.subplots()
-    # x = np.arange(len(currentDist_F6))
-    # y = currentDist_F6 - bestDist_6_F6
-    # y.sort()
-    # n, bins, patches = ax.hist(y, color='black', bins=np.linspace(-0.9, 0.9, 19))
-    # for i in range(len(patches)):
-    #     height = patches[i].get_height()
-    #     if height > 0:
-    #         # Calculate the position for text (center of the bin)
-    #         bin_center = 0.5 * (bins[i] + bins[i + 1])
-    #         # Place text at the bottom of the bar
-    #         ax.text(bin_center, height, f'{int(height)}', ha='center', va='bottom', fontsize=10, color='black')
-    # ax.set_xlim(-0.9,0.9)
-    # ax.set_ylabel("Number of Atoms")
-    # ax.set_xlabel('Difference of $F_j(6)$')
-    # xposition = np.arange(-0.9, 0.9, 0.1)
-    # for xc in xposition:
-    #     plt.axvline(x=xc, color='lightgrey', linestyle='-.', linewidth=0.7)
-    # plt.grid(b=False)
-    # plt.xticks(np.arange(-0.9, 0.9, 0.1), rotation=60, fontsize=10)
-    # # plt.legend(loc=1)
-    # plt.tight_layout()
-    # plt.savefig('hist_F6_F6_diff.png', transparent=False, bbox_inches='tight', dpi=400)
-    # plt.show()
 
-    # fig, ax = plt.subplots()
-    # x = np.arange(len(currentDist_F9))
-    # y = currentDist_F9 - bestDist_6_F9
-    # y.sort()
-    # n, bins, patches = ax.hist(y, color='black', bins=np.linspace(-0.9, 0.9, 19))
-    # for i in range(len(patches)):
-    #     height = patches[i].get_height()
-    #     if height > 0:
-    #         # Calculate the position for text (center of the bin)
-    #         bin_center = 0.5 * (bins[i] + bins[i + 1])
-    #         # Place text at the bottom of the bar
-    #         ax.text(bin_center, height, f'{int(height)}', ha='center', va='bottom', fontsize=10, color='black')
-    # ax.set_xlim(-0.9,0.9)
-    # ax.set_ylabel("Number of Atoms")
-    # ax.set_xlabel('Difference of $F_j(9)$')
-    # xposition = np.arange(-0.9, 0.9, 0.1)
-    # for xc in xposition:
-    #     plt.axvline(x=xc, color='lightgrey', linestyle='-.', linewidth=0.7)
+    fig, ax = plt.subplots()
+    x = np.arange(len(currentMRT)) + 1
+    y = list(currentMRT - bestMRT_MRT)
+    y.sort(reverse=True)
+    ax.bar(x, y, color='black')
+    ax.set_xlim(0, 72)
+    ax.set_xlabel("Index of Nodes")
+    ax.set_ylabel('Difference of $MRT_j$')
+    yposition = np.arange(-3.0, 3.0, 1.0)
+    xposition = np.arange(1, 71, 5.0)
+    for yc in yposition:
+        plt.axhline(y=yc, color='lightgrey', linestyle='-.', linewidth=0.7)
+    for xc in xposition:
+        plt.axvline(x=xc, color='lightgrey', linestyle='-.', linewidth=0.7)
     # plt.grid(b=False)
-    # plt.xticks(np.arange(-0.9, 0.9, 0.1), rotation=60, fontsize=10)
-    # # plt.legend(loc=1)
-    # plt.tight_layout()
-    # plt.savefig('hist_F9_F6_diff.png', transparent=False, bbox_inches='tight', dpi=400)
-    # plt.show()
-
-    # fig, ax = plt.subplots()
-    # x = np.arange(len(currentMRT)) + 1
-    # y = list(currentMRT - bestMRT_9)
-    # y.sort(reverse=True)
-    # ax.bar(x, y, color='black')
-    # ax.set_xlim(0, 72)
-    # ax.set_xlabel("Index of Atoms")
-    # ax.set_ylabel('Difference of $MRT_j$')
-    # yposition = np.arange(-3, 3, 0.5)
-    # xposition = np.arange(1, 71, 5.0)
-    # for yc in yposition:
-    #     plt.axhline(y=yc, color='lightgrey', linestyle='-.', linewidth=0.7)
-    # for xc in xposition:
-    #     plt.axvline(x=xc, color='lightgrey', linestyle='-.', linewidth=0.7)
-    # # plt.grid(b=False)
-    # plt.xticks(np.arange(1, 72, 5), fontsize=10)
-    # plt.yticks(np.arange(-3, 3, 0.5), fontsize=10)
-    # # plt.legend(loc=1)
-    # plt.tight_layout()
-    # plt.savefig('bar_MRT_F9_diff.png', transparent=False, bbox_inches='tight', dpi=400)
-    # plt.show()
-    #
-    # fig, ax = plt.subplots()
-    # x = np.arange(len(currentMRT_f)) + 1
-    # y = list(currentMRT_f - bestMRT_9_f)
-    # y.sort(reverse=True)
-    # ax.bar(x, y, color='black')
-    # ax.set_xlim(0, 72)
-    # ax.set_xlabel("Index of Atoms")
-    # ax.set_ylabel('Difference of $MRT_j$')
-    # yposition = np.arange(-0.06, 0.06, 0.02)
-    # xposition = np.arange(1, 71, 5.0)
-    # for yc in yposition:
-    #     plt.axhline(y=yc, color='lightgrey', linestyle='-.', linewidth=0.7)
-    # for xc in xposition:
-    #     plt.axvline(x=xc, color='lightgrey', linestyle='-.', linewidth=0.7)
-    # # plt.grid(b=False)
-    # plt.xticks(np.arange(1, 72, 5), fontsize=10)
-    # plt.yticks(np.arange(-0.06, 0.06, 0.02), fontsize=10)
-    # # plt.legend(loc=1)
-    # plt.tight_layout()
-    # plt.savefig('bar_MRT_f_F9_diff.png', transparent=False, bbox_inches='tight', dpi=400)
-    # plt.show()
-
-    # fig, ax = plt.subplots()
-    # x = np.arange(len(currentDist_F6))
-    # y = currentDist_F6 - bestDist_9_F6
-    # y.sort()
-    # n, bins, patches = ax.hist(y, color='black', bins=np.linspace(-0.9, 0.9, 19))
-    # for i in range(len(patches)):
-    #     height = patches[i].get_height()
-    #     if height > 0:
-    #         # Calculate the position for text (center of the bin)
-    #         bin_center = 0.5 * (bins[i] + bins[i + 1])
-    #         # Place text at the bottom of the bar
-    #         ax.text(bin_center, height, f'{int(height)}', ha='center', va='bottom', fontsize=10, color='black')
-    # ax.set_xlim(-0.9,0.9)
-    # ax.set_ylabel("Number of Atoms")
-    # ax.set_xlabel('Difference of $F_j(6)$')
-    # xposition = np.arange(-0.9, 0.9, 0.1)
-    # for xc in xposition:
-    #     plt.axvline(x=xc, color='lightgrey', linestyle='-.', linewidth=0.7)
-    # plt.grid(b=False)
-    # plt.xticks(np.arange(-0.9, 0.9, 0.1), rotation=60, fontsize=10)
-    # # plt.legend(loc=1)
-    # plt.tight_layout()
-    # plt.savefig('hist_F6_F9_diff.png', transparent=False, bbox_inches='tight', dpi=400)
-    # plt.show()
-
-    # fig, ax = plt.subplots()
-    # x = np.arange(len(currentDist_F9))
-    # y = currentDist_F9 - bestDist_9_F9
-    # y.sort()
-    # n, bins, patches = ax.hist(y, color='black', bins=np.linspace(-0.9, 0.9, 19))
-    # for i in range(len(patches)):
-    #     height = patches[i].get_height()
-    #     if height > 0:
-    #         # Calculate the position for text (center of the bin)
-    #         bin_center = 0.5 * (bins[i] + bins[i + 1])
-    #         # Place text at the bottom of the bar
-    #         ax.text(bin_center, height, f'{int(height)}', ha='center', va='bottom', fontsize=10, color='black')
-    # ax.set_xlim(-0.9,0.9)
-    # ax.set_ylabel("Number of Atoms")
-    # ax.set_xlabel('Difference of $F_j(9)$')
-    # xposition = np.arange(-0.9, 0.9, 0.1)
-    # for xc in xposition:
-    #     plt.axvline(x=xc, color='lightgrey', linestyle='-.', linewidth=0.7)
-    # plt.grid(b=False)
-    # plt.xticks(np.arange(-0.9, 0.9, 0.1), rotation=60, fontsize=10)
-    # # plt.legend(loc=1)
-    # plt.tight_layout()
-    # plt.savefig('hist_F9_F9_diff.png', transparent=False, bbox_inches='tight', dpi=400)
-    # plt.show()
-
-    # fig, ax = plt.subplots()
-    # x = np.arange(len(currentMRT)) + 1
-    # y = list(currentMRT - bestMRT_MRT)
-    # y.sort(reverse=True)
-    # ax.bar(x, y, color='black')
-    # ax.set_xlim(0, 72)
-    # ax.set_xlabel("Index of Nodes")
-    # ax.set_ylabel('Difference of $MRT_j$')
-    # yposition = np.arange(-3.0, 3.0, 1.0)
-    # xposition = np.arange(1, 71, 5.0)
-    # for yc in yposition:
-    #     plt.axhline(y=yc, color='lightgrey', linestyle='-.', linewidth=0.7)
-    # for xc in xposition:
-    #     plt.axvline(x=xc, color='lightgrey', linestyle='-.', linewidth=0.7)
-    # # plt.grid(b=False)
-    # plt.xticks(np.arange(1, 72, 5), fontsize=10)
-    # plt.yticks(np.arange(-3.0, 3.1, 1), fontsize=10)
-    # # plt.legend(loc=1)
-    # plt.tight_layout()
-    # plt.savefig('bar_MRT_MRT_diff.png', transparent=False, bbox_inches='tight', dpi=400)
-    # plt.show()
-    # # #
-    # fig, ax = plt.subplots()
-    # x = np.arange(len(currentMRT_f)) + 1
-    # y = list(currentMRT_f - bestMRT_MRT_f)
-    # y.sort(reverse=True)
-    # ax.bar(x, y, color='black')
-    # ax.set_xlim(0, 72)
-    # ax.set_xlabel("Index of Atoms")
-    # ax.set_ylabel('Difference of Weighted $MRT_j$')
-    # yposition = np.arange(-0.06, 0.06, 0.01)
-    # xposition = np.arange(1, 71, 5.0)
-    # for yc in yposition:
-    #     plt.axhline(y=yc, color='lightgrey', linestyle='-.', linewidth=0.7)
-    # for xc in xposition:
-    #     plt.axvline(x=xc, color='lightgrey', linestyle='-.', linewidth=0.7)
-    # # plt.grid(b=False)
-    # plt.xticks(np.arange(1, 72, 5), fontsize=10)
-    # plt.yticks(np.arange(-0.06, 0.06, 0.01), fontsize=10)
-    # # plt.legend(loc=1)
-    # plt.tight_layout()
-    # plt.savefig('bar_MRT_f_MRT_diff.png', transparent=False, bbox_inches='tight', dpi=400)
-    # plt.show()
-    #
-    # fig, ax = plt.subplots()
-    # x = np.arange(len(currentDist_F6))
-    # y = currentDist_F6 - bestDist_MRT_F6
-    # y.sort()
-    # n, bins, patches = ax.hist(y, color='black', bins=np.linspace(-0.9, 0.9, 19))
-    # for i in range(len(patches)):
-    #     height = patches[i].get_height()
-    #     if height > 0:
-    #         # Calculate the position for text (center of the bin)
-    #         bin_center = 0.5 * (bins[i] + bins[i + 1])
-    #         # Place text at the bottom of the bar
-    #         ax.text(bin_center, height, f'{int(height)}', ha='center', va='bottom', fontsize=10, color='black')
-    # ax.set_xlim(-0.9,0.9)
-    # ax.set_ylabel("Number of Atoms")
-    # ax.set_xlabel('Difference of $F_j(6)$')
-    # xposition = np.arange(-0.9, 0.9, 0.1)
-    # for xc in xposition:
-    #     plt.axvline(x=xc, color='lightgrey', linestyle='-.', linewidth=0.7)
-    # plt.grid(b=False)
-    # plt.xticks(np.arange(-0.9, 0.9, 0.1), rotation=60, fontsize=10)
-    # # plt.legend(loc=1)
-    # plt.tight_layout()
-    # plt.savefig('hist_F6_MRT_diff.png', transparent=False, bbox_inches='tight', dpi=400)
-    # plt.show()
-    #
-    # fig, ax = plt.subplots()
-    # x = np.arange(len(currentDist_F9))
-    # y = currentDist_F9 - bestDist_MRT_F9
-    # y.sort()
-    # n, bins, patches = ax.hist(y, color='black', bins=np.linspace(-0.9, 0.9, 19))
-    # for i in range(len(patches)):
-    #     height = patches[i].get_height()
-    #     if height > 0:
-    #         # Calculate the position for text (center of the bin)
-    #         bin_center = 0.5 * (bins[i] + bins[i + 1])
-    #         # Place text at the bottom of the bar
-    #         ax.text(bin_center, height, f'{int(height)}', ha='center', va='bottom', fontsize=10, color='black')
-    # ax.set_xlim(-0.9,0.9)
-    # ax.set_ylabel("Number of Atoms")
-    # ax.set_xlabel('Difference of $F_j(9)$')
-    # xposition = np.arange(-0.9, 0.9, 0.1)
-    # for xc in xposition:
-    #     plt.axvline(x=xc, color='lightgrey', linestyle='-.', linewidth=0.7)
-    # plt.grid(b=False)
-    # plt.xticks(np.arange(-0.9, 0.9, 0.1), rotation=60, fontsize=10)
-    # # plt.legend(loc=1)
-    # plt.tight_layout()
-    # plt.savefig('hist_F9_MRT_diff.png', transparent=False, bbox_inches='tight', dpi=400)
-    # plt.show()
+    plt.xticks(np.arange(1, 72, 5), fontsize=10)
+    plt.yticks(np.arange(-3.0, 3.1, 1), fontsize=10)
+    # plt.legend(loc=1)
+    plt.tight_layout()
+    plt.savefig('bar_MRT_MRT_diff.png', transparent=False, bbox_inches='tight', dpi=400)
+    plt.show()
+   
