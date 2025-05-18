@@ -29,7 +29,6 @@ For each experiment, the result is exported to a CSV file with the corresponding
 | Discrete Event Simulation| `Table3-Simulation.py`                      | St.Paul simulation with different service time distributions [1]            |
 | Parallel CPU             | `Table4-Parallel.py`                        | Parallel computing experiments [1]            |
 
-<!-- 根据上下文Table 1生成的合并单元格表格 -->
 <table>
   <thead>
     <tr>
