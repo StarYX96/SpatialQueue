@@ -22,12 +22,63 @@ Except for the discrete event simulation procedure, experiments do not need to r
 For each experiment, the result is exported to a CSV file with the corresponding filename after execution. It is important to note that the tables presented in the paper have undergone formatting adjustments to enhance readability, such as unifying scientific notation scales and highlighting specific results in bold. These formatting adjustments require post-processing. The tables can be directly reproduced by the above code files representatively. 
 
 ### <center>Table 1 List of Experiment Code Files and Corresponding Introductions</center>
-| Results                  | File Names of Codes                          | Introduction                                                                 |
+| Results  | File Names of Codes | Introduction |
 |--------------------------|---------------------------------------------|-----------------------------------------------------------------------------|
 | CPU - Heterogeneous Rate | `HeterogeneousRate-Greenville.py`<br>`HeterogeneousRate-StPaul.py`<br>`Figure 5.py` | Experiments under heterogeneous rate cases [1] |
 | CPU - Homogeneous Rate   | `HomogeneousRate-Greenville.py`<br>`HomogeneousRate-StPaul.py`<br>`Figure 6.py`   | Experiments under homogeneous rate cases [1]   |
 | Discrete Event Simulation| `Table3-Simulation.py`                      | St.Paul simulation with different service time distributions [1]            |
 | Parallel CPU             | `Table4-Parallel.py`                        | Parallel computing experiments [1]            |
+
+<!-- 根据上下文Table 1生成的合并单元格表格 -->
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2">Results</th>
+      <th colspan="2">File Names of Codes</th>
+      <th rowspan="2">Introduction</th>
+    </tr>
+    <tr>
+      <th>City Implementation</th>
+      <th>Visualization</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- 异构速率场景 -->
+    <tr>
+      <td rowspan="2">CPU - Heterogeneous Rate</td>
+      <td>HeterogeneousRate-Greenville.py</td>
+      <td rowspan="2">Figure 5.py</td>
+      <td rowspan="2">Two cities experiments under heterogeneous rates [1]</td>
+    </tr>
+    <tr>
+      <td>HeterogeneousRate-StPaul.py</td>
+    </tr>
+
+    <!-- 同构速率场景 -->
+    <tr>
+      <td rowspan="2">CPU - Homogeneous Rate</td>
+      <td>HomogeneousRate-Greenville.py</td>
+      <td rowspan="2">Figure 6.py</td>
+      <td rowspan="2">Two cities experiments under homogeneous rates [1]</td>
+    </tr>
+    <tr>
+      <td>HomogeneousRate-StPaul.py</td>
+    </tr>
+
+    <!-- 独立实验行 -->
+    <tr>
+      <td>Discrete Event Simulation</td>
+      <td colspan="2">Table3-Simulation.py</td>
+      <td>St.Paul simulation with service time variations [1]</td>
+    </tr>
+    
+    <tr>
+      <td>Parallel CPU</td>
+      <td colspan="2">Table4-Parallel.py</td>
+      <td>Parallel computing experiments [1]</td>
+    </tr>
+  </tbody>
+</table>
 
 ### File Naming Conventions:  
 - City-specific implementations:  
