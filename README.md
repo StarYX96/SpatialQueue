@@ -37,7 +37,7 @@ For each experiment, the result is exported to a CSV file with the corresponding
         <td> Introduction </td>
     </tr>
     <tr>
-        <td colspan="2">CPU - Heterogeneous Rate</td>
+        <td colspan="3">CPU - Heterogeneous Rate</td>
     </tr>
     <tr>
       <td rowspan="3">Figure 5</td>
@@ -45,33 +45,6 @@ For each experiment, the result is exported to a CSV file with the corresponding
       <td>HeterogeneousRate-Greenville.py</td>
       <td>Figure 5.py</td>
       <td rowspan="3">The experiments of two cities under homogeneous rate cases.  The third file reproduces Figure 5, which relies on the CSV results of corresponding experiments given by the first two files. For briefly, the CSV results are provided in prior. </td>
-    </tr>
-    <tr>
-      <td>HeterogeneousRate-StPaul.py</td>
-    </tr>
-
-    <!-- 同构速率场景 -->
-    <tr>
-      <td rowspan="2">CPU - Homogeneous Rate</td>
-      <td>HomogeneousRate-Greenville.py</td>
-      <td rowspan="2">Figure 6.py</td>
-      <td rowspan="2">Two cities experiments under homogeneous rates [1]</td>
-    </tr>
-    <tr>
-      <td>HomogeneousRate-StPaul.py</td>
-    </tr>
-
-    <!-- 独立实验行 -->
-    <tr>
-      <td>Discrete Event Simulation</td>
-      <td colspan="2">Table3-Simulation.py</td>
-      <td>St.Paul simulation with service time variations [1]</td>
-    </tr>
-    
-    <tr>
-      <td>Parallel CPU</td>
-      <td colspan="2">Table4-Parallel.py</td>
-      <td>Parallel computing experiments [1]</td>
     </tr>
 </table>
 
