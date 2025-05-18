@@ -1,9 +1,11 @@
 # Replication Package for *A Geometrically Convergent Solution to Spatial Hypercube Queueing Models*
 **By Cheng Hua, Jun Luo, Arthur J. Swersey, Yixing Wen**  
 
-In the main context of our paper, we evaluate the performance of our proposed Conditional Probability Update (CPU) algorithms as well as its parallel version. This ReadMe file provides detailed instructions for replicating the figures, experiments, and analyses presented in the paper. For any issues or questions, please contact jluo_ms@sjtu.edu.cn.
+In the main context of our paper, we evaluate the performance of our proposed Conditional Probability Update (CPU) algorithms as well as its parallel version. This file provides detailed instructions for replicating the figures, experiments, and analyses presented in the paper. For any issues or questions, please contact jluo_ms@sjtu.edu.cn.
 
 ## 1. General Introduction  
+The replication package includes Python code files, structured to facilitate the reproduction of all figures and tables in the paper. The package is compatible with both Linux and Windows systems. To compile and run the codes successfully, please use Python with a version higher than 3.9. Also, to produce the results, users need to prepare their Python environment by installing the following file:
+
 The replication package includes Python code files to reproduce all figures and tables in the paper. Requirements:  
 - Python >3.9  
 - Install dependencies:  
