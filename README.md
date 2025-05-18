@@ -21,15 +21,6 @@ Except for the discrete event simulation procedure, experiments do not need to r
 
 For each experiment, the result is exported to a CSV file with the corresponding filename after execution. It is important to note that the tables presented in the paper have undergone formatting adjustments to enhance readability, such as unifying scientific notation scales and highlighting specific results in bold. These formatting adjustments require post-processing. The tables can be directly reproduced by the above code files representatively. 
 
-### <center>Table 1 List of Experiment Code Files and Corresponding Introductions</center>
-| Results  | File Names of Codes | Introduction |
-|--------------------------|---------------------------------------------|-----------------------------------------------------------------------------|
-| CPU - Heterogeneous Rate | `HeterogeneousRate-Greenville.py`<br>`HeterogeneousRate-StPaul.py`<br>`Figure 5.py` | Experiments under heterogeneous rate cases [1] |
-| CPU - Homogeneous Rate   | `HomogeneousRate-Greenville.py`<br>`HomogeneousRate-StPaul.py`<br>`Figure 6.py`   | Experiments under homogeneous rate cases [1]   |
-| Discrete Event Simulation| `Table3-Simulation.py`                      | St.Paul simulation with different service time distributions [1]            |
-| Parallel CPU             | `Table4-Parallel.py`                        | Parallel computing experiments [1]            |
-
-
 <table style="width: 100%;">
     <colgroup>
     <col style="width: 30%;">
@@ -69,28 +60,14 @@ For each experiment, the result is exported to a CSV file with the corresponding
     <tr>
       <td>Figure 6.py</td>
     </tr>
-    
+    <tr>
+        <td colspan="3">Discrete Event Simulation</td>
+        <td>Table3-Simulation.py</td>
+        <td>The experiments of discrete event simulation of St. Paul. under heterogeneous rate cases and different service time distribution.</td>
+    </tr>
+    <tr>
+        <td colspan="3">Parallel CPU</td>
+        <td>Table4-Parallel.py</td>
+        <td>The experiments of parallel experiment of St. Paul. under homogeneous rate cases.</td>
+    </tr>
 </table>
-
-### File Naming Conventions:  
-- City-specific implementations:  
-  - `-Greenville.py`: Greenville city structure  
-  - `-StPaul.py`: St.Paul city structure  
-- Visualization scripts require CSV outputs from corresponding experiments  
-
-## 3. Hardware Specifications  
-```markdown
-- CPU: AMD Ryzen 9 5950X 16-Core Processor + NVIDIA RTX 3090
-- RAM: 64GB DDR4
-- Storage: 1.1TB NVMe SSD
-```
-
-## 4. Results Reproduction Notes  
-> **Important**: Tables in the paper include post-processing adjustments:  
-> - Unified scientific notation scales  
-> -Bold highlighting of key results  
-> Use scripts in `postprocessing/` directory to format raw CSV outputs [1].
-
-## Contact Information  
-For technical support contact:  
-`jluo_ms@sjtu.edu.cn`  
