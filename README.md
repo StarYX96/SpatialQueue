@@ -29,11 +29,46 @@ For each experiment, the result is exported to a CSV file with the corresponding
 | Discrete Event Simulation| `Table3-Simulation.py`                      | St.Paul simulation with different service time distributions [1]            |
 | Parallel CPU             | `Table4-Parallel.py`                        | Parallel computing experiments [1]            |
 
+<!-- 根据上下文Table 1生成的合并单元格表格 -->
 <table>
     <tr>
-      <th rowspan="2">Results</th>
+      <t rowspan="2">Results</th>
       <th colspan="2">File Names of Codes</th>
       <th rowspan="2">Introduction</th>
+    </tr>
+    <!-- 异构速率场景 -->
+    <tr>
+      <td rowspan="2">CPU - Heterogeneous Rate</td>
+      <td>HeterogeneousRate-Greenville.py</td>
+      <td rowspan="2">Figure 5.py</td>
+      <td rowspan="2">Two cities experiments under heterogeneous rates [1]</td>
+    </tr>
+    <tr>
+      <td>HeterogeneousRate-StPaul.py</td>
+    </tr>
+
+    <!-- 同构速率场景 -->
+    <tr>
+      <td rowspan="2">CPU - Homogeneous Rate</td>
+      <td>HomogeneousRate-Greenville.py</td>
+      <td rowspan="2">Figure 6.py</td>
+      <td rowspan="2">Two cities experiments under homogeneous rates [1]</td>
+    </tr>
+    <tr>
+      <td>HomogeneousRate-StPaul.py</td>
+    </tr>
+
+    <!-- 独立实验行 -->
+    <tr>
+      <td>Discrete Event Simulation</td>
+      <td colspan="2">Table3-Simulation.py</td>
+      <td>St.Paul simulation with service time variations [1]</td>
+    </tr>
+    
+    <tr>
+      <td>Parallel CPU</td>
+      <td colspan="2">Table4-Parallel.py</td>
+      <td>Parallel computing experiments [1]</td>
     </tr>
 </table>
 
