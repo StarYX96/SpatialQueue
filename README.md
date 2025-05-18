@@ -1,4 +1,4 @@
-# Replication Package for A Geometrically Convergent Solution to Spatial Hypercube Queueing Models  
+# Replication Package for *A Geometrically Convergent Solution to Spatial Hypercube Queueing Models*
 **By Cheng Hua, Jun Luo, Arthur J. Swersey, Yixing Wen**  
 
 ## 1. General Introduction  
