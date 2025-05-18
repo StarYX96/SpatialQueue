@@ -32,16 +32,19 @@ For each experiment, the result is exported to a CSV file with the corresponding
 <!-- 根据上下文Table 1生成的合并单元格表格 -->
 <table>
     <tr>
-      <t rowspan="2">Results</th>
-      <th colspan="2">File Names of Codes</th>
-      <th rowspan="2">Introduction</th>
+        <td> Results </td>
+        <td> File Names of Codes </td>
+        <td> Introduction </td>
     </tr>
-    <!-- 异构速率场景 -->
     <tr>
-      <td rowspan="2">CPU - Heterogeneous Rate</td>
+        <td colspan="2">CPU - Heterogeneous Rate</td>
+    </tr>
+    <tr>
+      <td rowspan="3">Figure 5</td>
+      <td>HeterogeneousRate- StPaul.py</td>
       <td>HeterogeneousRate-Greenville.py</td>
-      <td rowspan="2">Figure 5.py</td>
-      <td rowspan="2">Two cities experiments under heterogeneous rates [1]</td>
+      <td>Figure 5.py</td>
+      <td rowspan="3">The experiments of two cities under homogeneous rate cases.  The third file reproduces Figure 5, which relies on the CSV results of corresponding experiments given by the first two files. For briefly, the CSV results are provided in prior. </td>
     </tr>
     <tr>
       <td>HeterogeneousRate-StPaul.py</td>
