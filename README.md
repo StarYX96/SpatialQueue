@@ -8,8 +8,18 @@ The replication package includes Python code files, structured to facilitate the
 ```bash
 pip install -r requirements.txt
 ```
+In what follows, we outline the experiment configurations and provide a comprehensive guide to the code files.
 
 ## 2. Experiment Settings and Code Files  
+The paper tests various scenarios by varying the number of units and system utilization. Numerical experiments are conducted to report the computation time, mean response time (MRT), unit utilization, and the maximum percentage relative error (MPRE) of different measures between methods. The test experiment hardware setup used by the author is as follows:
+-	**CPU**: AMD Ryzen 9 5950X 16-Core Processor with Nvidia GeForce RTX 3090 Graphics
+-	**Memory (RAM)**: 64GB
+-	**Storage**: 1.1TB
+Notice that the computation time of experiments are corelated to machines’ execution status (e.g., temperature, available memory, version of operation system, etc.). So it’s common that the computation time might be slightly different.
+
+Except for the discrete event simulation procedure, experiments do not need to replicate since they take the same distribution of units’ location and fraction of calls under the same scenarios. The code files of experiments of two cities lie solely in the city’s structure and system’s estimated parameters, with no changes in algorithm design. All experiments will record their computation time and MPRE of certain measures comparing to other approaches. Please refer to our paper for further details.  The experiments are listed in Table 1.
+
+For each experiment, the result is exported to a CSV file with the corresponding filename after execution. It is important to note that the tables presented in the paper have undergone formatting adjustments to enhance readability, such as unifying scientific notation scales and highlighting specific results in bold. These formatting adjustments require post-processing. The tables can be directly reproduced by the above code files representatively. 
 
 ### Table 1: List of Experiment Code Files  
 | Results                  | File Names of Codes                          | Introduction                                                                 |
