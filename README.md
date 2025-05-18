@@ -30,16 +30,16 @@ For each experiment, the result is exported to a CSV file with the corresponding
 | Parallel CPU             | `Table4-Parallel.py`                        | Parallel computing experiments [1]            |
 
 
-<table>
+<table style="width: 100%;">
     <colgroup>
-    <col style="width: 20%;">
     <col style="width: 30%;">
-    <col style="width: 50%;">
+    <col style="width: 30%;">
+    <col style="width: 40%;">
 </colgroup>
     <tr>
-        <td> Results </td>
-        <td> File Names of Codes </td>
-        <td> Introduction </td>
+        <td style="text-align: center"> Results </td>
+        <td style="text-align: center"> File Names of Codes </td>
+        <td style="text-align: center"> Introduction </td>
     </tr>
     <tr>
         <td colspan="3">CPU - Heterogeneous Rate</td>
