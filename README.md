@@ -54,7 +54,7 @@ For each experiment, the result is exported to a CSV file with the corresponding
     <tr>
       <td rowspan="3">Figure 6</td>
       <td>HomogeneousRate- StPaul.py</td>
-      <td rowspan="3">The experiments of two cities under homogeneous rate cases.  The third file reproduces Figure 6, which relies on the CSV results of corresponding experiments given by the first two files. For brevity, the CSV results are provided in prior. </td>
+      <td rowspan="3" style="text-align: justify; vertical-align: top">The experiments of two cities under homogeneous rate cases.  The third file reproduces Figure 6, which relies on the CSV results of corresponding experiments given by the first two files. For brevity, the CSV results are provided in prior. </td>
     </tr>
     <tr>
       <td>HomogeneousRate-Greenville.py</td>
