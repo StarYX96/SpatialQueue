@@ -49,7 +49,7 @@ For each experiment, the result is exported to a CSV file with the corresponding
       <td>Figure 5.py</td>
     </tr>
      <tr>
-        <td colspan="3">CPU - Homogeneous Rate Cases</td>
+        <td colspan="3" align="center">CPU - Homogeneous Rate Cases</td>
     </tr>
     <tr>
       <td rowspan="3">Figure 6</td>
@@ -63,7 +63,7 @@ For each experiment, the result is exported to a CSV file with the corresponding
       <td>Figure 6.py</td>
     </tr>
     <tr>
-        <td colspan="3">Discrete Event Simulation</td>
+        <td colspan="3" align="center">Discrete Event Simulation</td>
     </tr>
     <tr>
         <td>Table 3</td>
@@ -71,7 +71,7 @@ For each experiment, the result is exported to a CSV file with the corresponding
         <td style="text-align: justify; vertical-align: top; word-wrap: break-word">The experiments of discrete event simulation of St. Paul. under heterogeneous rate cases and different service time distribution.</td>
     </tr>
     <tr>
-        <td colspan="3">Parallel CPU</td>
+        <td colspan="3" align="center">Parallel CPU</td>
     </tr>
     <tr>
         <td>Table 4</td>
