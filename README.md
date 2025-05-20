@@ -40,7 +40,7 @@ For each experiment, the result is exported to a CSV file with the corresponding
     <tr>
       <td rowspan="3">Figure 5</td>
       <td>HeterogeneousRate- StPaul.py</td>
-      <td rowspan="3" style="text-align: justify; vertical-align: top">The experiments of two cities under heterogeneous rate cases.  The third file reproduces Figure 5, which relies on the CSV results of corresponding experiments given by the first two files. For brevity, the CSV results are provided in prior. </td>
+      <td rowspan="3" style="text-align: justify; vertical-align: top; word-wrap: break-word">The experiments of two cities under heterogeneous rate cases.  The third file reproduces Figure 5, which relies on the CSV results of corresponding experiments given by the first two files. For brevity, the CSV results are provided in prior. </td>
     </tr>
     <tr>
       <td>HeterogeneousRate-Greenville.py</td>
@@ -54,7 +54,7 @@ For each experiment, the result is exported to a CSV file with the corresponding
     <tr>
       <td rowspan="3">Figure 6</td>
       <td>HomogeneousRate- StPaul.py</td>
-      <td rowspan="3" style="text-align: justify; vertical-align: top">The experiments of two cities under homogeneous rate cases.  The third file reproduces Figure 6, which relies on the CSV results of corresponding experiments given by the first two files. For brevity, the CSV results are provided in prior. </td>
+      <td rowspan="3" style="text-align: justify; vertical-align: top; word-wrap: break-word">The experiments of two cities under homogeneous rate cases.  The third file reproduces Figure 6, which relies on the CSV results of corresponding experiments given by the first two files. For brevity, the CSV results are provided in prior. </td>
     </tr>
     <tr>
       <td>HomogeneousRate-Greenville.py</td>
@@ -68,7 +68,7 @@ For each experiment, the result is exported to a CSV file with the corresponding
     <tr>
         <td>Table 3</td>
         <td>Table3-Simulation.py</td>
-        <td style="text-align: justify; vertical-align: top">The experiments of discrete event simulation of St. Paul. under heterogeneous rate cases and different service time distribution.</td>
+        <td style="text-align: justify; vertical-align: top; word-wrap: break-word">The experiments of discrete event simulation of St. Paul. under heterogeneous rate cases and different service time distribution.</td>
     </tr>
     <tr>
         <td colspan="3">Parallel CPU</td>
@@ -76,6 +76,6 @@ For each experiment, the result is exported to a CSV file with the corresponding
     <tr>
         <td>Table 4</td>
         <td>Table4-Parallel.py</td>
-        <td style="text-align: justify; vertical-align: top">The experiments of parallel experiment of St. Paul. under homogeneous rate cases.</td>
+        <td style="text-align: justify; vertical-align: top; word-wrap: break-word">The experiments of parallel experiment of St. Paul. under homogeneous rate cases.</td>
     </tr>
 </table>
