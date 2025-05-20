@@ -35,7 +35,7 @@ For each experiment, the result is exported to a CSV file with the corresponding
         <th style="text-align: center; vertical-align: middle"> Introduction </th>
     </tr>
     <tr>
-        <td colspan="3">CPU - Heterogeneous Rate</td>
+        <td colspan="3" style="text-align: center">CPU - Heterogeneous Rate</td>
     </tr>
     <tr>
       <td rowspan="3">Figure 5</td>
