@@ -68,7 +68,7 @@ For each experiment, the result is exported to a CSV file with the corresponding
     <tr>
         <td>Table 3</td>
         <td>Table3-Simulation.py</td>
-        <td>The experiments of discrete event simulation of St. Paul. under heterogeneous rate cases and different service time distribution.</td>
+        <td style="text-align: justify; vertical-align: top">The experiments of discrete event simulation of St. Paul. under heterogeneous rate cases and different service time distribution.</td>
     </tr>
     <tr>
         <td colspan="3">Parallel CPU</td>
@@ -76,6 +76,6 @@ For each experiment, the result is exported to a CSV file with the corresponding
     <tr>
         <td>Table 4</td>
         <td>Table4-Parallel.py</td>
-        <td>The experiments of parallel experiment of St. Paul. under homogeneous rate cases.</td>
+        <td style="text-align: justify; vertical-align: top">The experiments of parallel experiment of St. Paul. under homogeneous rate cases.</td>
     </tr>
 </table>
