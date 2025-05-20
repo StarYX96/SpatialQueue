@@ -23,7 +23,7 @@ For each experiment, the result is exported to a CSV file with the corresponding
 
 
 ## Table 1 List of Experiment Code Files and Corresponding Introductions
-<table style="width: 100%; table-layout: fixed;; margin: 0 auto;">
+<table style="width: 100%; table-layout: fixed;margin: 0 auto;">
     <colgroup>
     <col style="width: 40%;">
     <col style="width: 40%;">
