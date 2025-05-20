@@ -23,9 +23,9 @@ For each experiment, the result is exported to a CSV file with the corresponding
 
 <table style="width: 100%; table-layout: fixed;">
     <colgroup>
-    <col style="width: 30%;">
-    <col style="width: 30%;">
     <col style="width: 40%;">
+    <col style="width: 40%;">
+    <col style="width: 20%;">
 </colgroup>
     <tr>
         <td style="text-align: center"> Results </td>
