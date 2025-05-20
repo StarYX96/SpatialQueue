@@ -7,7 +7,7 @@ plt.rcParams["font.family"] = "Times New Roman"  # 设置字体
 plt.rcParams["font.size"] = 14
 
 # ------------------ 数据加载 ------------------
-df = pd.read_csv("table2.csv")
+df = pd.read_csv("heterResults.csv")
 
 # ------------------ 数据预处理 ------------------
 # 转换长表
