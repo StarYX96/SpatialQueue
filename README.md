@@ -21,7 +21,7 @@ Except for the discrete event simulation procedure, experiments do not need to r
 
 For each experiment, the result is exported to a CSV file with the corresponding filename after execution. It is important to note that the tables presented in the paper have undergone formatting adjustments to enhance readability, such as unifying scientific notation scales and highlighting specific results in bold. These formatting adjustments require post-processing. The tables can be directly reproduced by the above code files representatively. 
 
-<table style="width: 100%;">
+<table style="width: 100%; table-layout: fixed;">
     <colgroup>
     <col style="width: 30%;">
     <col style="width: 30%;">
@@ -30,7 +30,7 @@ For each experiment, the result is exported to a CSV file with the corresponding
     <tr>
         <td style="text-align: center"> Results </td>
         <td style="text-align: center"> File Names of Codes </td>
-        <td style="text-align: center"> Introduction </td>
+        <td style="text-align: center; vertical-align: middle"> Introduction </td>
     </tr>
     <tr>
         <td colspan="3">CPU - Heterogeneous Rate</td>
