@@ -29,11 +29,11 @@ For each experiment, the result is exported to a CSV file with the corresponding
     <col style="width: 30%;">
     <col style="width: 40%;">
 </colgroup>
-    <th>
-        <td style="text-align: center"> Results </td>
-        <td style="text-align: center"> File Names of Codes </td>
-        <td style="text-align: center; vertical-align: middle"> Introduction </td>
-    </th>
+    <tr>
+        <th style="text-align: center"> Results </th>
+        <th style="text-align: center"> File Names of Codes </th>
+        <th style="text-align: center; vertical-align: middle"> Introduction </th>
+    </tr>
     <tr>
         <td colspan="3">CPU - Heterogeneous Rate</td>
     </tr>
