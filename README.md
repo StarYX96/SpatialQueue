@@ -1,5 +1,5 @@
 # Replication Package for *A Geometrically Convergent Solution to Spatial Hypercube Queueing Models*
-**By Cheng Hua, Jun Luo, Arthur J. Swersey, Yixing Wen**  
+<! --**By Cheng Hua, Jun Luo, Arthur J. Swersey, Yixing Wen**-->  
 
 In the main context of our paper, we evaluate the performance of our proposed Conditional Probability Update (CPU) algorithms as well as its parallel version. This file provides detailed instructions for replicating the figures, experiments, and analyses presented in the paper. For any issues or questions, please contact jluo_ms@sjtu.edu.cn.
 
